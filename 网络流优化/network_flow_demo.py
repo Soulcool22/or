@@ -139,7 +139,7 @@ class NetworkFlowDemo:
         原理：网络流的线性规划形式；影子价格反映路线紧张程度。
         规则：中文输出、统一样式；结果保存供可视化与报告。
         """
-        print("\n🚚 最小费用流问题 - 物流配送优化")
+        print("\n最小费用流问题 - 物流配送优化")
         print("-" * 40)
         
         # 网络节点
@@ -150,11 +150,11 @@ class NetworkFlowDemo:
         supply = {'仓库1': 100, '仓库2': 150}
         demand = {'客户A': 80, '客户B': 90, '客户C': 80}
         
-        print("供需信息:")
-        print(f"仓库供应量: {supply}")
-        print(f"客户需求量: {demand}")
-        print(f"总供应量: {sum(supply.values())}")
-        print(f"总需求量: {sum(demand.values())}")
+        print("供需信息：")
+        print(f"仓库供应量：{supply}")
+        print(f"客户需求量：{demand}")
+        print(f"总供应量：{sum(supply.values())}")
+        print(f"总需求量：{sum(demand.values())}")
         
         # 运输成本和容量
         # (起点, 终点, 单位成本, 容量)
@@ -167,9 +167,9 @@ class NetworkFlowDemo:
             ('仓库2', '客户C', 7, 60)
         ]
         
-        print(f"\n运输成本和容量限制:")
+        print("\n运输成本和容量限制：")
         for start, end, cost, capacity in transport_data:
-            print(f"  {start} → {end}: 成本{cost}元/单位, 容量{capacity}单位")
+            print(f"  {start} → {end}：成本{cost}元/单位，容量{capacity}单位")
         
         # 使用PuLP求解最小费用流
         prob = pulp.LpProblem("最小费用流问题", pulp.LpMinimize)
@@ -203,8 +203,8 @@ class NetworkFlowDemo:
         # 结果
         min_cost = pulp.value(prob.objective)
         
-        print(f"\n最小费用流结果：")
-        print(f"  最小运输成本: {min_cost:.2f} 元")
+        print("\n最小费用流结果：")
+        print(f"  最小运输成本：{min_cost:.2f} 元")
         
         print(f"\n最优配送方案：")
         flow_solution = {}
@@ -223,8 +223,7 @@ class NetworkFlowDemo:
                     'utilization': flow / capacity * 100
                 })
                 flow_solution[start, end] = flow
-                print(f"  {start} → {end}: {flow:.1f}单位, "
-                      f"成本: {total_cost:.2f}元")
+                print(f"  {start} → {end}：{flow:.1f}单位，成本：{total_cost:.2f}元")
         
         # 保存结果
         self.results['min_cost_flow'] = {
@@ -247,7 +246,7 @@ class NetworkFlowDemo:
         原理：最短路径的图论算法；用于交通/通信/物流的路径优化。
         规则：中文输出，结果保存供可视化。
         """
-        print("\n🗺️  最短路径问题 - 城市交通网络")
+        print("\n最短路径问题 - 城市交通网络")
         print("-" * 40)
         
         # 创建城市交通网络
@@ -281,9 +280,9 @@ class NetworkFlowDemo:
         # 计算最短路径与距离（Dijkstra，权重字段为 'weight'）
         shortest_distance = nx.shortest_path_length(G, '起点', '终点', weight='weight')
         
-        print(f"\n最短路径结果：")
-        print(f"  最短距离: {shortest_distance} km")
-        print(f"  最短路径: {' → '.join(shortest_path)}")
+        print("\n最短路径结果：")
+        print(f"  最短距离：{shortest_distance} km")
+        print(f"  最短路径：{' → '.join(shortest_path)}")
         
         # 计算路径详情
         path_details = []
@@ -299,8 +298,8 @@ class NetworkFlowDemo:
                 'distance': distance,
                 'cumulative': total_distance
             })
-            print(f"  第{i+1}段: {start} → {end}, {distance} km "
-                  f"(累计: {total_distance} km)")
+            print(f"  第{i+1}段：{start} → {end}，{distance} km "
+                  f"(累计：{total_distance} km)")
         
         # 计算所有节点间的最短路径（用于分析网络连通性）
         all_shortest_paths = dict(nx.all_pairs_shortest_path_length(G))
@@ -329,10 +328,10 @@ class NetworkFlowDemo:
         规则：中文标签、统一样式、网格 alpha=0.3、PNG输出（dpi=300）。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
-        print("\n📈 生成网络流可视化图表...")
+        print("\n生成网络流可视化图表…")
         
         # 设置统一图表样式
         plt.style.use('seaborn-v0_8')
@@ -715,10 +714,10 @@ def main():
     # 生成报告
     demo.generate_report()
     
-    print(f"\n🎉 网络流优化演示完成！")
-    print(f"最大流量: {max_flow_value} 单位/小时")
-    print(f"最小运输成本: {min_cost:.2f} 元")
-    print(f"最短路径距离: {shortest_distance} km")
+    print("\n网络流优化演示完成。")
+    print(f"最大流量：{max_flow_value} 单位/小时")
+    print(f"最小运输成本：{min_cost:.2f} 元")
+    print(f"最短路径距离：{shortest_distance} km")
 
 if __name__ == "__main__":
     main()

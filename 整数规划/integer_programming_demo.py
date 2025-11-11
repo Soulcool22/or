@@ -41,8 +41,7 @@ class IntegerProgrammingDemo:
     def __init__(self):
         self.results = {}
         print("=" * 50)
-        print("🏭 整数规划优化演示")
-        print("Integer Programming Demo")
+        print("整数规划优化演示")
         print("=" * 50)
     
     def solve_facility_location(self):
@@ -56,7 +55,7 @@ class IntegerProgrammingDemo:
         原理：整数规划的0/1选址模型；极点最优性与组合选择。
         规则：中文输出、教学友好、图表统一样式与PNG保存。
         """
-        print("\n🏭 设施选址优化问题")
+        print("\n设施选址优化问题")
         print("-" * 40)
         
         # 候选地点
@@ -109,7 +108,7 @@ class IntegerProgrammingDemo:
         selected = [int(y[i].varValue) for i in range(5)]
         min_cost = pulp.value(prob.objective)
         
-print(f"\n最优选址方案：")
+        print(f"\n最优选址方案：")
         selected_locations = []
         total_capacity = 0
         selected_details = []
@@ -124,14 +123,14 @@ print(f"\n最优选址方案：")
                     'operating_cost': operating_cost[i],
                     'capacity': capacity[i]
                 })
-                print(f"  ✓ {locations[i]} - 建设成本: {construction_cost[i]}万元, "
-                      f"年运营成本: {operating_cost[i]}万元, 服务能力: {capacity[i]}万件/年")
+                print(f"  {locations[i]} - 建设成本：{construction_cost[i]}万元, "
+                      f"年运营成本：{operating_cost[i]}万元, 服务能力：{capacity[i]}万件/年")
         
-print(f"\n方案总结：")
-        print(f"  选中地点: {', '.join(selected_locations)}")
-        print(f"  总服务能力: {total_capacity} 万件/年")
-        print(f"  需求满足率: {total_capacity/total_demand*100:.1f}%")
-        print(f"  总成本(5年): {min_cost:.2f} 万元")
+        print(f"\n方案总结：")
+        print(f"  选中地点：{', '.join(selected_locations)}")
+        print(f"  总服务能力：{total_capacity} 万件/年")
+        print(f"  需求满足率：{total_capacity/total_demand*100:.1f}%")
+        print(f"  总成本（5年）：{min_cost:.2f} 万元")
         
         # 保存结果
         self.results = {
@@ -159,7 +158,7 @@ print(f"\n方案总结：")
         原理：组合优化的典型问题；价值密度可提供启发式直觉。
         规则：中文输出、教学友好、图表统一样式与PNG保存。
         """
-        print("\n🎒 背包问题演示")
+        print("\n背包问题演示")
         print("-" * 30)
         
         # 物品数据
@@ -200,18 +199,18 @@ print(f"\n方案总结：")
         max_value = pulp.value(prob.objective)
         total_weight = sum(weights[i] * selected_items[i] for i in range(len(items)))
         
-print(f"\n最优选择方案：")
+        print(f"\n最优选择方案：")
         selected_item_names = []
         for i in range(len(items)):
             if selected_items[i]:
                 selected_item_names.append(items[i])
-                print(f"  ✓ {items[i]} - 价值: {values[i]}元, 重量: {weights[i]}kg")
+                print(f"  {items[i]} - 价值：{values[i]}元, 重量：{weights[i]}kg")
         
-print(f"\n方案总结：")
-        print(f"  选中物品: {', '.join(selected_item_names)}")
-        print(f"  总价值: {max_value:.0f} 元")
-        print(f"  总重量: {total_weight:.1f} kg")
-        print(f"  容量利用率: {total_weight/capacity*100:.1f}%")
+        print(f"\n方案总结：")
+        print(f"  选中物品：{', '.join(selected_item_names)}")
+        print(f"  总价值：{max_value:.0f} 元")
+        print(f"  总重量：{total_weight:.1f} kg")
+        print(f"  容量利用率：{total_weight/capacity*100:.1f}%")
         
         # 保存背包问题结果
         self.results['knapsack'] = {
@@ -233,10 +232,10 @@ print(f"\n方案总结：")
         规则：figsize统一；网格 alpha=0.3；PNG输出（dpi=300）。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
-        print("\n📈 生成可视化图表...")
+        print("\n生成可视化图表...")
         
         # 设置统一图表样式
         plt.style.use('seaborn-v0_8')
@@ -375,7 +374,7 @@ print(f"\n方案总结：")
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.close(fig)
         
-print("可视化图表已保存为 'integer_programming_results.png'")
+        print("可视化图表已保存为 'integer_programming_results.png'")
     
     def scenario_analysis(self):
         """情景分析
@@ -384,14 +383,14 @@ print("可视化图表已保存为 'integer_programming_results.png'")
         规则：仅教学用途，保持中文输出与结构化展示。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
-        print("\n🔍 情景分析")
+        print("\n情景分析")
         print("-" * 30)
         
         # 分析不同需求量下的最优方案
-        print("1. 需求量变化影响分析:")
+        print("1. 需求量变化影响分析：")
         base_demand = self.results['total_demand']
         
         for demand_change in [0.8, 0.9, 1.1, 1.2]:  # 需求量变化倍数
@@ -420,13 +419,13 @@ print("可视化图表已保存为 'integer_programming_results.png'")
                     selected_locations_new = [self.results['locations'][i] 
                                             for i in range(5) if selected_new[i]]
                     
-                    print(f"  需求量 {new_demand:.0f} 万件/年:")
-                    print(f"    选中地点: {', '.join(selected_locations_new)}")
-                    print(f"    总成本: {new_cost:.2f} 万元")
+                    print(f"  需求量 {new_demand:.0f} 万件/年：")
+                    print(f"    选中地点：{', '.join(selected_locations_new)}")
+                    print(f"    总成本：{new_cost:.2f} 万元")
                 else:
-                    print(f"  需求量 {new_demand:.0f} 万件/年: 无可行解")
+                    print(f"  需求量 {new_demand:.0f} 万件/年：无可行解")
             except:
-                print(f"  需求量 {new_demand:.0f} 万件/年: 求解失败")
+                print(f"  需求量 {new_demand:.0f} 万件/年：求解失败")
     
     def generate_report(self):
         """生成详细报告
@@ -434,48 +433,48 @@ print("可视化图表已保存为 'integer_programming_results.png'")
         规则：条理清晰、中文描述、数值格式统一。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
         print("\n" + "="*50)
-print("整数规划优化报告")
+        print("整数规划优化报告")
         print("="*50)
         
-        print(f"\n🎯 设施选址问题:")
-        print(f"  • 优化目标: 最小化总成本")
-        print(f"  • 决策变量: 是否在候选地点建设设施")
-        print(f"  • 约束条件: 选择3个地点，满足需求")
+        print(f"\n设施选址问题：")
+        print(f"  优化目标：最小化总成本")
+        print(f"  决策变量：是否在候选地点建设设施")
+        print(f"  约束条件：选择3个地点，满足需求")
         
-print(f"\n最优方案：")
+        print(f"\n最优方案：")
         for detail in self.results['selected_details']:
-            print(f"  • {detail['location']}: 建设成本 {detail['construction_cost']}万元, "
+            print(f"  {detail['location']}：建设成本 {detail['construction_cost']}万元, "
                   f"年运营成本 {detail['operating_cost']}万元, "
                   f"服务能力 {detail['capacity']}万件/年")
         
-print(f"\n成本分析：")
+        print(f"\n成本分析：")
         total_construction = sum(detail['construction_cost'] 
                                for detail in self.results['selected_details'])
         total_operating = sum(detail['operating_cost'] * 5 
                             for detail in self.results['selected_details'])
-        print(f"  • 总建设成本: {total_construction:.2f} 万元")
-        print(f"  • 5年运营成本: {total_operating:.2f} 万元")
-        print(f"  • 总成本: {self.results['min_cost']:.2f} 万元")
+        print(f"  总建设成本：{total_construction:.2f} 万元")
+        print(f"  5年运营成本：{total_operating:.2f} 万元")
+        print(f"  总成本：{self.results['min_cost']:.2f} 万元")
         
-        print(f"\n📈 服务能力:")
+        print(f"\n服务能力：")
         print(f"  • 总服务能力: {self.results['total_capacity']} 万件/年")
-        print(f"  • 需求满足率: {self.results['total_capacity']/self.results['total_demand']*100:.1f}%")
+        print(f"  需求满足率：{self.results['total_capacity']/self.results['total_demand']*100:.1f}%")
         
         if 'knapsack' in self.results:
-            print(f"\n🎒 背包问题结果:")
+            print(f"\n背包问题结果：")
             knapsack = self.results['knapsack']
-            print(f"  • 选中物品: {', '.join(knapsack['selected_item_names'])}")
-            print(f"  • 总价值: {knapsack['max_value']:.0f} 元")
-            print(f"  • 总重量: {knapsack['total_weight']:.1f} kg")
-            print(f"  • 容量利用率: {knapsack['total_weight']/knapsack['capacity']*100:.1f}%")
+            print(f"  选中物品：{', '.join(knapsack['selected_item_names'])}")
+            print(f"  总价值：{knapsack['max_value']:.0f} 元")
+            print(f"  总重量：{knapsack['total_weight']:.1f} kg")
+            print(f"  容量利用率：{knapsack['total_weight']/knapsack['capacity']*100:.1f}%")
         
-print(f"\n管理建议：")
+        print(f"\n管理建议：")
         if self.results['total_capacity'] / self.results['total_demand'] < 1.1:
-            print(f"  • 服务能力余量较小，建议考虑增加备用方案")
+            print(f"  服务能力余量较小，建议考虑增加备用方案")
         
         # 找出成本效益最好的地点
         cost_efficiency = []
@@ -485,7 +484,7 @@ print(f"\n管理建议：")
             cost_efficiency.append((detail['location'], efficiency))
         
         best_location = max(cost_efficiency, key=lambda x: x[1])
-        print(f"  • 成本效益最佳地点: {best_location[0]} "
+        print(f"  成本效益最佳地点：{best_location[0]} "
               f"({best_location[1]:.2f} 万件/万元)")
         
         print("="*50)
@@ -513,10 +512,10 @@ def main():
     # 生成报告
     demo.generate_report()
     
-    print(f"\n🎉 整数规划演示完成！")
-    print(f"设施选址最优解: {[i for i, s in enumerate(selected) if s]}")
-    print(f"最小成本: {min_cost:.2f} 万元")
-    print(f"背包问题最大价值: {max_value:.0f} 元")
+    print(f"\n整数规划演示完成。")
+    print(f"设施选址最优解：{[i for i, s in enumerate(selected) if s]}")
+    print(f"最小成本：{min_cost:.2f} 万元")
+    print(f"背包问题最大价值：{max_value:.0f} 元")
 
 if __name__ == "__main__":
     main()

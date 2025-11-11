@@ -47,8 +47,7 @@ class LargeScaleOptimization:
     def __init__(self):
         self.results = {}
         print("=" * 70)
-print("大规模运筹学优化演示系统")
-        print("Large-Scale Operations Research Optimization Demo")
+        print("大规模运筹学优化演示系统")
         print("=" * 70)
     
     def generate_production_data(self, n_products=50, n_resources=20):
@@ -56,7 +55,7 @@ print("大规模运筹学优化演示系统")
         作用：构造多产品-多资源的稀疏数据集，模拟真实工厂的资源占用与利润分布。
         规则：固定随机种子以保证可重复；利润下限截断；每个产品仅使用部分资源以体现稀疏性。
         """
-print(f"\n生成大规模生产数据：{n_products}种产品，{n_resources}种资源")
+        print(f"\n生成大规模生产数据：{n_products}种产品，{n_resources}种资源")
         
         # 产品名称
         products = [f'产品_{i+1:02d}' for i in range(n_products)]
@@ -90,16 +89,16 @@ print(f"\n生成大规模生产数据：{n_products}种产品，{n_resources}种
         - 决策变量 x_j ≥ 0；目标 Σ p_j x_j；约束 Σ a_ij x_j ≤ b_i
         原理：线性规划的极点最优性；稀疏结构提升可解性；影子价格反映资源价值。
         """
-        print("\n🏭 1. 大规模线性规划 - 多产品生产计划")
+        print("\n1. 大规模线性规划 - 多产品生产计划")
         print("-" * 50)
         
         # 生成数据
         products, resources, profit, resource_matrix, capacity = \
             self.generate_production_data(50, 20)
         
-        print(f"问题规模: {len(products)}种产品 × {len(resources)}种资源")
-        print(f"平均利润: {np.mean(profit):.2f} ± {np.std(profit):.2f}")
-        print(f"资源容量范围: {np.min(capacity):.1f} - {np.max(capacity):.1f}")
+        print(f"问题规模：{len(products)}种产品 × {len(resources)}种资源")
+        print(f"平均利润：{np.mean(profit):.2f} ± {np.std(profit):.2f}")
+        print(f"资源容量范围：{np.min(capacity):.1f} - {np.max(capacity):.1f}")
         
         # 创建优化问题
         prob = pulp.LpProblem("大规模生产计划", pulp.LpMaximize)
@@ -116,7 +115,7 @@ print(f"\n生成大规模生产数据：{n_products}种产品，{n_resources}种
                                for i in range(len(products))]) <= capacity[j]
         
         # 求解
-        print("🔄 正在求解大规模线性规划问题...")
+        print("开始求解大规模线性规划问题…")
         start_time = datetime.now()
         prob.solve(pulp.PULP_CBC_CMD(msg=0))
         solve_time = (datetime.now() - start_time).total_seconds()
@@ -129,11 +128,11 @@ print(f"\n生成大规模生产数据：{n_products}种产品，{n_resources}种
         non_zero_products = sum(1 for s in solution if s > 0.01)
         avg_production = np.mean([s for s in solution if s > 0.01])
         
-print(f"\n求解结果：")
-        print(f"  求解时间: {solve_time:.2f} 秒")
-        print(f"  最大利润: {max_profit:,.2f} 元")
-        print(f"  生产产品数: {non_zero_products}/{len(products)}")
-        print(f"  平均产量: {avg_production:.2f} 单位")
+        print("\n求解结果：")
+        print(f"  求解时间：{solve_time:.2f} 秒")
+        print(f"  最大利润：{max_profit:,.2f} 元")
+        print(f"  生产产品数：{non_zero_products}/{len(products)}")
+        print(f"  平均产量：{avg_production:.2f} 单位")
         
         # 资源利用率分析
         resource_usage = np.zeros(len(resources))
@@ -143,11 +142,11 @@ print(f"\n求解结果：")
         
         utilization_rates = resource_usage / capacity * 100
         
-print(f"\n资源利用率统计：")
-        print(f"  平均利用率: {np.mean(utilization_rates):.1f}%")
-        print(f"  最高利用率: {np.max(utilization_rates):.1f}%")
-        print(f"  最低利用率: {np.min(utilization_rates):.1f}%")
-        print(f"  满负荷资源数: {sum(1 for rate in utilization_rates if rate > 95)}")
+        print("\n资源利用率统计：")
+        print(f"  平均利用率：{np.mean(utilization_rates):.1f}%")
+        print(f"  最高利用率：{np.max(utilization_rates):.1f}%")
+        print(f"  最低利用率：{np.min(utilization_rates):.1f}%")
+        print(f"  满负荷资源数：{sum(1 for rate in utilization_rates if rate > 95)}")
         
         # 保存结果
         self.results['large_scale_lp'] = {
@@ -167,7 +166,7 @@ print(f"\n资源利用率统计：")
         作用：构造供应商-客户网络的供应、需求、距离与成本矩阵，用于全国运输优化。
         规则：总需求略小于总供应以保证可行；成本=距离×单位成本+固定成本；城市列表用于模拟地理分布。
         """
-print(f"\n生成物流网络数据：{n_suppliers}个供应商，{n_customers}个客户")
+        print(f"\n生成物流网络数据：{n_suppliers}个供应商，{n_customers}个客户")
         
         # 中国主要城市作为节点
         cities = [
@@ -208,18 +207,18 @@ print(f"\n生成物流网络数据：{n_suppliers}个供应商，{n_customers}�
         - 连续非负变量 x_{i,j}；供应等式/不等式；需求等式/不等式
         原理：运输问题的线性结构；活跃路线用于衡量网络利用度与复杂度。
         """
-        print("\n🌏 2. 大规模运输问题 - 全国物流网络优化")
+        print("\n2. 大规模运输问题 - 全国物流网络优化")
         print("-" * 50)
         
         # 生成数据
         suppliers, customers, supply, demand, cost_matrix, distance_matrix = \
             self.generate_logistics_network(15, 25)
         
-        print(f"网络规模: {len(suppliers)}个供应商 → {len(customers)}个客户")
-        print(f"总供应量: {sum(supply):,.1f} 吨")
-        print(f"总需求量: {sum(demand):,.1f} 吨")
-        print(f"平均运输距离: {np.mean(distance_matrix):.1f} 公里")
-        print(f"平均运输成本: {np.mean(cost_matrix):.2f} 元/吨")
+        print(f"网络规模：{len(suppliers)}个供应商 → {len(customers)}个客户")
+        print(f"总供应量：{sum(supply):,.1f} 吨")
+        print(f"总需求量：{sum(demand):,.1f} 吨")
+        print(f"平均运输距离：{np.mean(distance_matrix):.1f} 公里")
+        print(f"平均运输成本：{np.mean(cost_matrix):.2f} 元/吨")
         
         # 创建优化问题
         prob = pulp.LpProblem("大规模运输优化", pulp.LpMinimize)
@@ -244,7 +243,7 @@ print(f"\n生成物流网络数据：{n_suppliers}个供应商，{n_customers}�
             prob += pulp.lpSum([x[i,j] for i in range(len(suppliers))]) >= demand[j]
         
         # 求解
-        print("🔄 正在求解大规模运输问题...")
+        print("开始求解大规模运输问题…")
         start_time = datetime.now()
         prob.solve(pulp.PULP_CBC_CMD(msg=0))
         solve_time = (datetime.now() - start_time).total_seconds()
@@ -264,20 +263,20 @@ print(f"\n生成物流网络数据：{n_suppliers}个供应商，{n_customers}�
                            for j in range(len(customers)) 
                            if solution_matrix[i][j] > 0.01)
         
-print(f"\n优化结果：")
-        print(f"  求解时间: {solve_time:.2f} 秒")
-        print(f"  最小运输成本: {min_cost:,.2f} 元")
-        print(f"  总运输量: {total_shipment:,.1f} 吨")
-        print(f"  活跃路线数: {active_routes}/{len(suppliers)*len(customers)}")
-        print(f"  平均路线利用率: {active_routes/(len(suppliers)*len(customers))*100:.1f}%")
+        print("\n优化结果：")
+        print(f"  求解时间：{solve_time:.2f} 秒")
+        print(f"  最小运输成本：{min_cost:,.2f} 元")
+        print(f"  总运输量：{total_shipment:,.1f} 吨")
+        print(f"  活跃路线数：{active_routes}/{len(suppliers)*len(customers)}")
+        print(f"  平均路线利用率：{active_routes/(len(suppliers)*len(customers))*100:.1f}%")
         
         # 供应商利用率
         supplier_usage = np.sum(solution_matrix, axis=1)
         supplier_utilization = supplier_usage / supply * 100
         
-print(f"\n供应商利用率：")
-        print(f"  平均利用率: {np.mean(supplier_utilization):.1f}%")
-        print(f"  满负荷供应商: {sum(1 for rate in supplier_utilization if rate > 95)}")
+        print("\n供应商利用率：")
+        print(f"  平均利用率：{np.mean(supplier_utilization):.1f}%")
+        print(f"  满负荷供应商：{sum(1 for rate in supplier_utilization if rate > 95)}")
         
         # 保存结果
         self.results['large_scale_transport'] = {
@@ -371,7 +370,7 @@ print(f"\n供应商利用率：")
             
             return routes, route_loads, route_distances
         
-        print("🔄 正在求解车辆路径问题...")
+        print("开始求解车辆路径问题…")
         start_time = datetime.now()
         routes, route_loads, route_distances = solve_vrp_greedy()
         solve_time = (datetime.now() - start_time).total_seconds()
@@ -380,19 +379,19 @@ print(f"\n供应商利用率：")
         total_distance = sum(route_distances)
         used_vehicles = sum(1 for route in routes if route)
         
-print(f"\nVRP求解结果：")
-        print(f"  求解时间: {solve_time:.3f} 秒")
-        print(f"  使用车辆数: {used_vehicles}/{n_vehicles}")
-        print(f"  总行驶距离: {total_distance:.1f} 单位")
-        print(f"  平均车辆利用率: {np.mean([load/vehicle_capacity*100 for load in route_loads if load > 0]):.1f}%")
+        print("\nVRP求解结果：")
+        print(f"  求解时间：{solve_time:.3f} 秒")
+        print(f"  使用车辆数：{used_vehicles}/{n_vehicles}")
+        print(f"  总行驶距离：{total_distance:.1f} 单位")
+        print(f"  平均车辆利用率：{np.mean([load/vehicle_capacity*100 for load in route_loads if load > 0]):.1f}%")
         
-print(f"\n详细路线：")
+        print("\n详细路线：")
         for i, route in enumerate(routes):
             if route:
                 route_str = f"配送中心 → " + " → ".join([f"客户_{j:02d}" for j in route]) + " → 配送中心"
-                print(f"  车辆{i+1}: {route_str}")
-                print(f"    载重: {route_loads[i]:.1f}/{vehicle_capacity} ({route_loads[i]/vehicle_capacity*100:.1f}%)")
-                print(f"    距离: {route_distances[i]:.1f} 单位")
+                print(f"  车辆{i+1}：{route_str}")
+                print(f"    载重：{route_loads[i]:.1f}/{vehicle_capacity} ({route_loads[i]/vehicle_capacity*100:.1f}%)")
+                print(f"    距离：{route_distances[i]:.1f} 单位")
         
         # 保存结果
         self.results['vrp'] = {
@@ -410,7 +409,7 @@ print(f"\n详细路线：")
     
     def portfolio_optimization(self):
         """投资组合优化演示"""
-print("\n4. 投资组合优化 - 金融应用")
+        print("\n4. 投资组合优化 - 金融应用")
         print("-" * 50)
         
         # 股票数据（模拟）
@@ -462,7 +461,7 @@ print("\n4. 投资组合优化 - 金融应用")
         # 2. 达到目标收益率
         prob += pulp.lpSum([expected_returns[i] * weights[i] for i in range(n_stocks)]) >= target_return
         
-        print("🔄 正在求解投资组合优化问题...")
+        print("开始求解投资组合优化问题…")
         start_time = datetime.now()
         prob.solve(pulp.PULP_CBC_CMD(msg=0))
         solve_time = (datetime.now() - start_time).total_seconds()
@@ -479,20 +478,20 @@ print("\n4. 投资组合优化 - 金融应用")
         active_stocks = sum(1 for w in optimal_weights if w > min_weight + 0.001)
         max_investment = max(investments)
         
-print(f"\n最优投资组合：")
-        print(f"  求解时间: {solve_time:.3f} 秒")
-        print(f"  组合预期收益: {portfolio_return*100:.2f}%")
-        print(f"  组合风险: {portfolio_risk*100:.2f}%")
-        print(f"  夏普比率: {(portfolio_return-0.03)/portfolio_risk:.2f}")  # 假设无风险利率3%
-        print(f"  活跃股票数: {active_stocks}/{n_stocks}")
+        print("\n最优投资组合：")
+        print(f"  求解时间：{solve_time:.3f} 秒")
+        print(f"  组合预期收益：{portfolio_return*100:.2f}%")
+        print(f"  组合风险：{portfolio_risk*100:.2f}%")
+        print(f"  夏普比率：{(portfolio_return-0.03)/portfolio_risk:.2f}")  # 假设无风险利率3%
+        print(f"  活跃股票数：{active_stocks}/{n_stocks}")
         
-        print(f"\n💼 主要持仓 (权重>5%):")
+        print("\n主要持仓（权重>5%）：")
         major_holdings = [(i, optimal_weights[i], investments[i]) 
                          for i in range(n_stocks) if optimal_weights[i] > 0.05]
         major_holdings.sort(key=lambda x: x[1], reverse=True)
         
         for i, weight, investment in major_holdings[:10]:
-            print(f"  {stocks[i]}: {weight*100:.1f}% ({investment:,.0f}元)")
+            print(f"  {stocks[i]}：{weight*100:.1f}%（{investment:,.0f}元）")
         
         # 保存结果
         self.results['portfolio'] = {
@@ -513,7 +512,7 @@ print(f"\n最优投资组合：")
         作用：多子图展示产量分布、资源利用率、运输网络活跃路线、VRP路线、收敛曲线和性能对比，直观呈现大规模优化结果。
         规则：统一中文标签、网格alpha=0.3、PNG输出（dpi=300），符合项目规范。
         """
-        print("\n📈 生成大规模优化可视化图表...")
+        print("\n生成大规模优化可视化图表…")
         
         fig = plt.figure(figsize=(24, 20))
         
@@ -736,18 +735,18 @@ print(f"\n最优投资组合：")
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.show()
         
-print("大规模优化可视化图表已保存为 'large_scale_results.png'")
+        print("大规模优化可视化图表已保存为 'large_scale_results.png'")
     
     def performance_comparison(self):
         """性能对比分析
         作用：汇总各算法的规模、求解时间、目标值与活跃变量，进行横向性能评估。
         说明：教学用途的粗略对比，真实环境需考虑硬件与数据差异。
         """
-        print("\n⚡ 算法性能对比分析")
+        print("\n算法性能对比分析")
         print("-" * 50)
         
         if not self.results:
-            print("❌ 没有可用的结果数据")
+            print("没有可用的结果数据")
             return
         
         # 创建性能对比表
@@ -795,10 +794,10 @@ print("大规模优化可视化图表已保存为 'large_scale_results.png'")
         
         # 显示性能表
         df_performance = pd.DataFrame(performance_data)
-print("\n算法性能对比：")
+        print("\n算法性能对比：")
         print(df_performance.to_string(index=False))
         
-print(f"\n性能分析：")
+        print("\n性能分析：")
         print(f"  • 线性规划适合连续优化问题，求解效率高")
         print(f"  • 运输问题是特殊线性规划，网络结构清晰")
         print(f"  • VRP使用启发式算法，快速但可能非最优")
@@ -827,7 +826,7 @@ def main():
     demo.performance_comparison()
     
     print("\n" + "="*70)
-    print("🎉 大规模运筹学优化演示完成！")
+    print("大规模运筹学优化演示完成。")
     print("所有结果已保存到可视化图表中。")
     print("="*70)
 

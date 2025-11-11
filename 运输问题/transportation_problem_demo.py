@@ -42,8 +42,7 @@ class TransportationProblemDemo:
     def __init__(self):
         self.results = {}
         print("=" * 50)
-print("运输问题优化演示")
-        print("Transportation Problem Demo")
+        print("运输问题优化演示")
         print("=" * 50)
     
     def solve_basic_transportation(self):
@@ -58,7 +57,7 @@ print("运输问题优化演示")
         - 非平衡时添加“虚拟工厂/虚拟仓库”，成本为0以吸收差额
         原理：线性规划的特殊结构（完全单调矩阵），可用运输单纯形法；此处用CBC求解器。
         """
-print("\n基础运输问题 - 供应链优化")
+        print("\n基础运输问题 - 供应链优化")
         print("-" * 40)
         
         # 工厂和仓库
@@ -78,13 +77,13 @@ print("\n基础运输问题 - 供应链优化")
             [14, 9, 16, 5]   # 工厂C到各仓库
         ])
         
-        print("供需信息:")
+        print("供需信息：")
         print(f"工厂供应量: {dict(zip(factories, supply))}")
         print(f"仓库需求量: {dict(zip(warehouses, demand))}")
         print(f"总供应量: {sum(supply)} 吨")
         print(f"总需求量: {sum(demand)} 吨")
-        
-        print(f"\n运输成本矩阵 (元/吨):")
+
+        print("\n运输成本矩阵（元/吨）：")
         cost_df = pd.DataFrame(cost_matrix, index=factories, columns=warehouses)
         print(cost_df)
         
@@ -93,7 +92,7 @@ print("\n基础运输问题 - 供应链优化")
         original_demand = demand.copy()
         
         if sum(supply) != sum(demand):
-            print(f"⚠️  非平衡运输问题：供应量 ≠ 需求量")
+            print("非平衡运输问题：供应量 ≠ 需求量")
             if sum(supply) > sum(demand):
                 # 添加虚拟仓库
                 demand.append(sum(supply) - sum(demand))
@@ -141,17 +140,17 @@ print("\n基础运输问题 - 供应链优化")
         
         min_transport_cost = pulp.value(prob.objective)
         
-print(f"\n最优运输方案：")
+        print("\n最优运输方案：")
         solution_df = pd.DataFrame(solution_matrix, 
                                  index=factories, 
                                  columns=warehouses)
         print(solution_df.round(1))
         
-print(f"\n运输成本分析：")
-        print(f"  最小运输成本: {min_transport_cost:.2f} 元")
+        print("\n运输成本分析：")
+        print(f"  最小运输成本：{min_transport_cost:.2f} 元")
         
         # 计算各路线成本：便于识别高成本路线与优化机会
-print(f"\n主要运输路线：")
+        print("\n主要运输路线：")
         route_details = []
         for i in range(len(factories)):
             for j in range(len(warehouses)):
@@ -194,7 +193,7 @@ print(f"\n主要运输路线：")
         - 需求约束：每个市场每种产品的总收货量 ≥ 需求
         原理：仍为线性规划，但维度更高，适合展示结构化建模方法。
         """
-print("\n多产品运输问题")
+        print("\n多产品运输问题")
         print("-" * 30)
         
         # 工厂、产品、市场
@@ -223,16 +222,16 @@ print("\n多产品运输问题")
              [7, 5, 8]]   # 工厂Y的P2到各市场
         ])
         
-        print("供应信息:")
+        print("供应信息：")
         supply_df = pd.DataFrame(supply_matrix, index=factories, columns=products)
         print(supply_df)
         
-        print("\n需求信息:")
+        print("\n需求信息：")
         demand_df = pd.DataFrame(demand_matrix, index=markets, columns=products)
         print(demand_df)
         
-        print(f"\n各产品总供应量: P1={supply_matrix[:, 0].sum()}, P2={supply_matrix[:, 1].sum()}")
-        print(f"各产品总需求量: P1={demand_matrix[:, 0].sum()}, P2={demand_matrix[:, 1].sum()}")
+        print(f"\n各产品总供应量：P1={supply_matrix[:, 0].sum()}, P2={supply_matrix[:, 1].sum()}")
+        print(f"各产品总需求量：P1={demand_matrix[:, 0].sum()}, P2={demand_matrix[:, 1].sum()}")
         
         # 使用PuLP定义优化问题：最小化总运输成本
         prob = pulp.LpProblem("多产品运输问题", pulp.LpMinimize)
@@ -267,10 +266,10 @@ print("\n多产品运输问题")
         # 结果
         min_cost = pulp.value(prob.objective)
         
-print(f"\n最优运输方案：")
-        print(f"  最小运输成本: {min_cost:.2f} 元")
+        print("\n最优运输方案：")
+        print(f"  最小运输成本：{min_cost:.2f} 元")
         
-print(f"\n运输路线详情：")
+        print("\n运输路线详情：")
         multi_route_details = []
         for i in range(len(factories)):
             for p in range(len(products)):
@@ -309,10 +308,10 @@ print(f"\n运输路线详情：")
         规则：figsize统一；网格 alpha=0.3；PNG输出（dpi=300）。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
-        print("\n📈 生成可视化图表...")
+        print("\n生成可视化图表…")
         
         # 创建2x3子图布局，展示更全面的运输分析
         if 'multi_product' in self.results:
@@ -530,7 +529,7 @@ print(f"\n运输路线详情：")
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.close(fig)
         
-print("可视化图表已保存为 'transportation_results.png'")
+        print("可视化图表已保存为 'transportation_results.png'")
     
     def cost_sensitivity_analysis(self):
         """运输成本敏感性分析
@@ -538,17 +537,17 @@ print("可视化图表已保存为 'transportation_results.png'")
         说明：严谨分析需在成本变动下重新求解模型，这里为教学简化演示。
         """
         if 'basic' not in self.results:
-            print("⚠️ 请先运行基础运输问题求解")
+            print("请先运行基础运输问题求解")
             return
         
-        print("\n🔍 运输成本敏感性分析")
+        print("\n运输成本敏感性分析")
         print("-" * 30)
         
         basic = self.results['basic']
         base_cost = basic['min_cost']
         
         # 分析关键路线成本变化的影响
-        print("关键路线成本变化影响:")
+        print("关键路线成本变化影响：")
         
         for route in basic['route_details'][:3]:  # 分析前3条主要路线
             print(f"\n  {route['from']} → {route['to']} 路线:")
@@ -558,8 +557,8 @@ print("可视化图表已保存为 'transportation_results.png'")
                 estimated_cost_change = route['total_cost'] * cost_change / 100
                 new_total_cost = base_cost + estimated_cost_change
                 
-                print(f"    成本{cost_change:+d}% → 预估总成本: {new_total_cost:.2f} 元 "
-                      f"(变化: {estimated_cost_change:+.2f})")
+                print(f"    成本{cost_change:+d}% → 预估总成本：{new_total_cost:.2f} 元 "
+                      f"(变化：{estimated_cost_change:+.2f})")
     
     def generate_report(self):
         """生成详细报告
@@ -567,33 +566,33 @@ print("可视化图表已保存为 'transportation_results.png'")
         规则：条理清晰、教学友好；将技术结果转化为业务可读信息。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
         print("\n" + "="*50)
-print("运输问题优化报告")
+        print("运输问题优化报告")
         print("="*50)
         
         if 'basic' in self.results:
             basic = self.results['basic']
-print(f"\n基础运输问题：")
-            print(f"  • 优化目标: 最小化运输成本")
-            print(f"  • 工厂数量: {len(basic['factories'])}")
-            print(f"  • 仓库数量: {len(basic['original_warehouses'])}")
-            print(f"  • 最小运输成本: {basic['min_cost']:.2f} 元")
+            print("\n基础运输问题：")
+            print(f"  • 优化目标：最小化运输成本")
+            print(f"  • 工厂数量：{len(basic['factories'])}")
+            print(f"  • 仓库数量：{len(basic['original_warehouses'])}")
+            print(f"  • 最小运输成本：{basic['min_cost']:.2f} 元")
             
-print(f"\n运输方案统计：")
+            print("\n运输方案统计：")
             total_quantity = sum(detail['quantity'] for detail in basic['route_details'])
-            print(f"  • 总运输量: {total_quantity:.1f} 吨")
-            print(f"  • 平均运输成本: {basic['min_cost']/total_quantity:.2f} 元/吨")
-            print(f"  • 活跃路线数: {len(basic['route_details'])}")
+            print(f"  • 总运输量：{total_quantity:.1f} 吨")
+            print(f"  • 平均运输成本：{basic['min_cost']/total_quantity:.2f} 元/吨")
+            print(f"  • 活跃路线数：{len(basic['route_details'])}")
             
             # 找出成本最高和最低的路线
             if basic['route_details']:
                 max_cost_route = max(basic['route_details'], key=lambda x: x['unit_cost'])
                 min_cost_route = min(basic['route_details'], key=lambda x: x['unit_cost'])
                 
-print(f"\n路线成本分析：")
+                print("\n路线成本分析：")
                 print(f"  • 最高成本路线: {max_cost_route['from']} → {max_cost_route['to']} "
                       f"({max_cost_route['unit_cost']} 元/吨)")
                 print(f"  • 最低成本路线: {min_cost_route['from']} → {min_cost_route['to']} "
@@ -601,11 +600,11 @@ print(f"\n路线成本分析：")
         
         if 'multi_product' in self.results:
             multi = self.results['multi_product']
-print(f"\n多产品运输问题：")
-            print(f"  • 工厂数量: {len(multi['factories'])}")
-            print(f"  • 产品种类: {len(multi['products'])}")
-            print(f"  • 市场数量: {len(multi['markets'])}")
-            print(f"  • 最小运输成本: {multi['min_cost']:.2f} 元")
+            print("\n多产品运输问题：")
+            print(f"  • 工厂数量：{len(multi['factories'])}")
+            print(f"  • 产品种类：{len(multi['products'])}")
+            print(f"  • 市场数量：{len(multi['markets'])}")
+            print(f"  • 最小运输成本：{multi['min_cost']:.2f} 元")
             
             # 各产品的运输成本分析
             product_costs = {}
@@ -615,12 +614,12 @@ print(f"\n多产品运输问题：")
                     product_costs[product] = 0
                 product_costs[product] += detail['total_cost']
             
-            print(f"\n📈 各产品运输成本:")
+            print("\n各产品运输成本：")
             for product, cost in product_costs.items():
                 percentage = cost / multi['min_cost'] * 100
                 print(f"  • {product}: {cost:.2f} 元 ({percentage:.1f}%)")
         
-print(f"\n优化建议：")
+        print("\n优化建议：")
         if 'basic' in self.results:
             basic = self.results['basic']
             if basic['route_details']:
@@ -659,9 +658,9 @@ def main():
     # 生成报告
     demo.generate_report()
     
-    print(f"\n🎉 运输问题演示完成！")
-    print(f"基础运输最小成本: {min_cost:.2f} 元")
-    print(f"多产品运输最小成本: {multi_min_cost:.2f} 元")
+    print("\n运输问题演示完成。")
+    print(f"基础运输最小成本：{min_cost:.2f} 元")
+    print(f"多产品运输最小成本：{multi_min_cost:.2f} 元")
 
 if __name__ == "__main__":
     main()

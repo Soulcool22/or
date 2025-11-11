@@ -156,7 +156,7 @@ class OptimizationVisualization:
         - 函数等高线与迭代路径同时呈现
         规则：中文标签、统一样式、PNG输出（dpi=300），教学友好。
         """
-        print("\n🎬 2. 梯度下降优化过程动画")
+        print("\n2. 梯度下降优化过程动画")
         
         # 定义目标函数 f(x,y) = (x-3)² + (y-2)²
         def objective_function(x, y):
@@ -408,7 +408,7 @@ class OptimizationVisualization:
     
     def three_dimensional_optimization(self):
         """三维优化表面可视化"""
-        print("\n🏔️ 5. 三维优化表面可视化")
+        print("\n5. 三维优化表面可视化")
         
         fig = plt.figure(figsize=(16, 12))
         
@@ -512,7 +512,7 @@ class OptimizationVisualization:
     
     def algorithm_comparison_dashboard(self):
         """算法对比仪表板"""
-        print("\n📈 6. 算法性能对比仪表板")
+        print("\n6. 算法性能对比仪表板")
         
         fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
         
@@ -633,7 +633,7 @@ def main():
     viz.algorithm_comparison_dashboard()
     
     print("\n" + "="*50)
-    print("🎉 所有可视化演示完成！")
+    print("所有可视化演示完成。")
     print("图表已保存到 or 文件夹中：")
     print("  • feasible_region.png - 可行域可视化")
     print("  • optimization_process.png - 优化过程")

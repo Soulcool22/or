@@ -45,8 +45,7 @@ class LinearProgrammingDemo:
         # 初始化结果容器；打印统一的演示标题，提升交互体验
         self.results = {}
         print("=" * 50)
-print("线性规划优化演示")
-        print("Linear Programming Demo")
+        print("线性规划优化演示")
         print("=" * 50)
 
     def solve_production_planning(self):
@@ -62,7 +61,7 @@ print("线性规划优化演示")
         - prob.solve(PULP_CBC_CMD(msg=0)) 使用CBC求解器静默求解
         原理：线性规划可行域为凸多边形，最优解位于可行域的极点（单纯形法思想）。
         """
-print("\n生产计划优化问题")
+        print("\n生产计划优化问题")
         print("-" * 40)
         
         # 问题数据（与题目集说明一致，确保教学与代码对齐）
@@ -79,11 +78,11 @@ print("\n生产计划优化问题")
         material_available = 80    # 可用原材料（kg）
         
         # 说明性打印，帮助理解数据结构与参数含义
-        print(f"产品利润: {dict(zip(products, profit))}")
-        print(f"劳动力需求: {dict(zip(products, labor_req))}")
-        print(f"原材料需求: {dict(zip(products, material_req))}")
-        print(f"可用劳动力: {labor_available} 小时")
-        print(f"可用原材料: {material_available} kg")
+        print(f"产品利润：{dict(zip(products, profit))}")
+        print(f"劳动力需求：{dict(zip(products, labor_req))}")
+        print(f"原材料需求：{dict(zip(products, material_req))}")
+        print(f"可用劳动力：{labor_available} 小时")
+        print(f"可用原材料：{material_available} kg")
         
         # 使用PuLP定义优化问题：maximization模型
         prob = pulp.LpProblem("生产计划", pulp.LpMaximize)
@@ -107,7 +106,7 @@ print("\n生产计划优化问题")
         solution = [x[i].varValue for i in range(3)]
         max_profit = pulp.value(prob.objective)
         
-print(f"\n最优解：")
+        print(f"\n最优解：")
         for i, product in enumerate(products):
             print(f"  {product}: {solution[i]:.2f} 单位")
         print(f"  最大利润: {max_profit:.2f} 元")
@@ -116,9 +115,9 @@ print(f"\n最优解：")
         labor_used = sum(labor_req[i] * solution[i] for i in range(3))
         material_used = sum(material_req[i] * solution[i] for i in range(3))
         
-        print(f"\n📈 资源利用率:")
-        print(f"  劳动力: {labor_used:.2f}/{labor_available} ({labor_used/labor_available*100:.1f}%)")
-        print(f"  原材料: {material_used:.2f}/{material_available} ({material_used/material_available*100:.1f}%)")
+        print(f"\n资源利用率：")
+        print(f"  劳动力：{labor_used:.2f}/{labor_available} ({labor_used/labor_available*100:.1f}%)")
+        print(f"  原材料：{material_used:.2f}/{material_available} ({material_used/material_available*100:.1f}%)")
         
         # 保存结果用于可视化与后续分析（避免重复求解，提升复用性）
         self.results = {
@@ -142,10 +141,10 @@ print(f"\n最优解：")
         规则：统一图表风格、中文标题、网格、PNG输出（dpi=300）。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
-        print("\n📈 生成可视化图表...")
+        print("\n生成可视化图表...")
         
         # 设置统一图表样式
         plt.style.use('seaborn-v0_8')
@@ -238,7 +237,7 @@ print(f"\n最优解：")
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.close(fig)
 
-print("可视化图表已保存为 'linear_programming_results.png'")
+        print("可视化图表已保存为 'linear_programming_results.png'")
     
     def sensitivity_analysis(self):
         """敏感性分析
@@ -246,18 +245,18 @@ print("可视化图表已保存为 'linear_programming_results.png'")
         原理：目标系数变化影响最优解与最优值；可用作影子价格与稳定区间的直觉参考。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
-        print("\n🔍 敏感性分析")
+        print("\n敏感性分析")
         print("-" * 30)
         
         # 分析利润系数变化的影响：逐产品与多档变化百分比遍历
-        print("1. 利润系数敏感性分析:")
+        print("1. 利润系数敏感性分析：")
         base_profits = self.results['profit']
         
         for i, product in enumerate(self.results['products']):
-            print(f"\n  {product} 利润变化影响:")
+            print(f"\n  {product} 利润变化影响：")
             for change in [-20, -10, 10, 20]:  # 变化百分比
                 new_profit = base_profits[i] * (1 + change/100)
                 
@@ -286,39 +285,39 @@ print("可视化图表已保存为 'linear_programming_results.png'")
         规则：条理清晰、中文输出；将技术结果转化为管理语言便于决策。
         """
         if not self.results:
-            print("⚠️ 请先运行求解方法")
+            print("请先运行求解方法")
             return
         
         print("\n" + "="*50)
-print("线性规划优化报告")
+        print("线性规划优化报告")
         print("="*50)
         
-        print(f"\n🎯 问题描述:")
-        print(f"  • 优化目标: 最大化生产利润")
-        print(f"  • 决策变量: 三种产品的生产数量")
-        print(f"  • 约束条件: 劳动力和原材料限制")
+        print(f"\n问题描述：")
+        print(f"  优化目标：最大化生产利润")
+        print(f"  决策变量：三种产品的生产数量")
+        print(f"  约束条件：劳动力和原材料限制")
         
-print(f"\n最优解：")
+        print(f"\n最优解：")
         for i, product in enumerate(self.results['products']):
-            print(f"  • {product}: {self.results['solution'][i]:.2f} 单位")
-        print(f"  • 最大利润: {self.results['max_profit']:.2f} 元")
+            print(f"  {product}：{self.results['solution'][i]:.2f} 单位")
+        print(f"  最大利润：{self.results['max_profit']:.2f} 元")
         
-        print(f"\n📈 资源利用情况:")
+        print(f"\n资源利用情况：")
         labor_util = self.results['labor_used'] / self.results['labor_available'] * 100
         material_util = self.results['material_used'] / self.results['material_available'] * 100
-        print(f"  • 劳动力利用率: {labor_util:.1f}%")
-        print(f"  • 原材料利用率: {material_util:.1f}%")
+        print(f"  劳动力利用率：{labor_util:.1f}%")
+        print(f"  原材料利用率：{material_util:.1f}%")
         
-print(f"\n管理建议：")
+        print(f"\n管理建议：")
         if labor_util > 95:
-            print(f"  • 劳动力资源接近满负荷，建议考虑增加人力")
+            print(f"  劳动力资源接近满负荷，建议考虑增加人力")
         if material_util > 95:
-            print(f"  • 原材料资源接近满负荷，建议优化采购计划")
+            print(f"  原材料资源接近满负荷，建议优化采购计划")
         
         # 找出最有价值的产品：单位利润最高者
         profit_per_unit = self.results['profit']
         max_profit_idx = profit_per_unit.index(max(profit_per_unit))
-        print(f"  • 单位利润最高产品: {self.results['products'][max_profit_idx]} "
+        print(f"  单位利润最高产品：{self.results['products'][max_profit_idx]} "
               f"({profit_per_unit[max_profit_idx]} 元/单位)")
         
         print("="*50)
@@ -343,9 +342,9 @@ def main():
     # 生成报告
     demo.generate_report()
     
-    print(f"\n🎉 线性规划演示完成！")
-    print(f"最优解: {[f'{x:.1f}' for x in solution]}")
-    print(f"最大利润: {max_profit:.2f} 元")
+    print(f"\n线性规划演示完成。")
+    print(f"最优解：{[f'{x:.1f}' for x in solution]}")
+    print(f"最大利润：{max_profit:.2f} 元")
 
 if __name__ == "__main__":
     # 入口保护：确保脚本直接运行时才执行主流程，导入时不执行
